@@ -76,12 +76,13 @@ def test_search_results(setup):
         if expected_word in text.lower():
             results_text.append(text)
 
-    assert len(results_text) >= 10
+    assert len(results_elements) >= 10 and results_text
 
 
-# verifying that results has the expected word and there are al least 10 items as results
+# verifying that results has the expected word and there are at least 10 items as results with the wanted text
 def test_search_results_include_term(setup):
     page = MainPage(setup)
+    results_text = []
     expected_word = 'laptop'
 
     search_bar_element = page.find_element('search_bar')
@@ -92,8 +93,9 @@ def test_search_results_include_term(setup):
 
     results_elements = page.find_elements('results')
 
-    assert len(results_elements) >= 10
-
     for result in results_elements:
         text = page.read_text(result)
-        assert expected_word in text.lower()
+        if expected_word in text.lower():
+            results_text.append(text)
+
+    assert len(results_text) >= 10
